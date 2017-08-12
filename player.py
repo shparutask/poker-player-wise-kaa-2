@@ -62,7 +62,10 @@ class Player:
                 if mystatus['current_buy_in'] > mystatus['stack'] / 4:
                     return 0
                 else:
-                    return theCall
+                    if theCall == 0:
+                        return theRaise
+                    else:
+                        return theCall
         except:
             print("Unexpected error:", sys.exc_info()[0])
 
