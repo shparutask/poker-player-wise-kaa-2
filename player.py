@@ -9,7 +9,7 @@ class Player:
         # sys.stdout(game_state)
 
         print(json.dumps(game_state))
-        return 20
+        return game_state.big_blind
 
     def showdown(self, game_state):
         pass
