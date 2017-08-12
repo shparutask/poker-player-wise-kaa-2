@@ -48,7 +48,7 @@ class Player:
 
                 if rank > 2:
                     return allIn
-                elif rank > 0 and current_buy > mystatus['stack'] / 4:
+                elif rank == 1 and current_buy < mystatus['stack'] / 4:
                     return theCall
                 else:
                     return 0
