@@ -71,6 +71,7 @@ class Player:
                 # Если колл 0, тогда поднимаем - первая наша ставка
                 elif theCall == 0:
                     return theRaise
+                # Или колл
                 else:
                     return theCall
         except:
