@@ -9,7 +9,7 @@ class Player:
         # sys.stdout(game_state)
 
         print(json.dumps(game_state))
-        return 30
+        return game_state['minimum_raise']
 
     def showdown(self, game_state):
         pass
