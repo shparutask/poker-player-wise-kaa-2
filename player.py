@@ -27,49 +27,7 @@ class Player:
         return communityCards + mycards
 
     def betRequest(self, game_state):
-        try:
-            print(json.dumps(game_state))
-
-            action_ = game_state['in_action']
-            mystatus = game_state['players'][action_]
-
-            communityCards = game_state['community_cards']
-            mycards = mystatus['hole_cards']
-
-            current_buy = game_state['current_buy_in']
-
-            theCall = current_buy - mystatus['bet']
-            theRaise = theCall+game_state['big_blind']
-
-            allIn = theCall + game_state['minimum_raise']
-
-            if len(communityCards) > 0:
-                rank = self.rank_request(communityCards + mycards)
-
-                if rank > 2:
-                    return allIn
-                elif rank == 1 and current_buy < mystatus['stack'] / 4:
-                    return theCall
-                else:
-                    return 0
-
-            firstCard = mycards[0]
-            secondCard = mycards[1]
-
-            if firstCard['rank'] == secondCard['rank']:
-                return theRaise
-            else:
-                if mystatus['current_buy_in'] > mystatus['stack'] / 4:
-                    return 0
-                else:
-                    if theCall == 0:
-                        return theRaise
-                    else:
-                        return theCall
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
-
-        return 0
+        return 1000       
 
     def showdown(self, game_state):
         pass
