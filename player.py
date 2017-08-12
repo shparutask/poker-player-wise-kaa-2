@@ -27,6 +27,7 @@ class Player:
         return communityCards + mycards
 
     def betRequest(self, game_state):
+        fold = 0
         try:
             print(json.dumps(game_state))
 
@@ -40,7 +41,7 @@ class Player:
 
             myBet = mystatus['bet']
             bigBlind = game_state['big_blind']
-            fold = 0
+
             theCall = current_buy - myBet
             theRaise = theCall + bigBlind
 
@@ -64,7 +65,7 @@ class Player:
             else:
                 # Если ставка меньше 1/4 банка тогда сброс
                 # [СБРОС]
-                if mystatus['current_buy_in'] > mystatus['stack'] / 4:
+                if current_buy > mystatus['stack'] / 4:
                     return fold
                 elif myBet < bigBlind:
                     return bigBlind
