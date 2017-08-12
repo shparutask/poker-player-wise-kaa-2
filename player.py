@@ -59,7 +59,7 @@ class Player:
             if firstCard['rank'] == secondCard['rank']:
                 return theRaise
             else:
-                if mystatus['current_buy_in'] > mystatus['stack'] / 4:
+                if game_state['current_buy_in'] > mystatus['stack'] / 4:
                     return 0
                 else:
                     if theCall == 0:
