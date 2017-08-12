@@ -38,8 +38,11 @@ class Player:
 
             current_buy = game_state['current_buy_in']
 
-            theCall = current_buy - mystatus['bet']
-            theRaise = theCall+game_state['big_blind']
+            myBet = mystatus['bet']
+            bigBlind = game_state['big_blind']
+            fold = 0
+            theCall = current_buy - myBet
+            theRaise = theCall + bigBlind
 
             allIn = theCall + game_state['minimum_raise']
 
@@ -51,7 +54,7 @@ class Player:
                 elif rank == 1 and current_buy < mystatus['stack'] / 4:
                     return theCall
                 else:
-                    return 0
+                    return fold
 
             firstCard = mycards[0]
             secondCard = mycards[1]
@@ -59,17 +62,21 @@ class Player:
             if firstCard['rank'] == secondCard['rank']:
                 return theRaise
             else:
+                # Если ставка меньше 1/4 банка тогда сброс
+                # [СБРОС]
                 if mystatus['current_buy_in'] > mystatus['stack'] / 4:
-                    return 0
+                    return fold
+                elif myBet < bigBlind:
+                    return bigBlind
+                # Если колл 0, тогда поднимаем - первая наша ставка
+                elif theCall == 0:
+                    return theRaise
                 else:
-                    if theCall == 0:
-                        return theRaise
-                    else:
-                        return theCall
+                    return theCall
         except:
             print("Unexpected error:", sys.exc_info()[0])
 
-        return 0
+        return fold
 
     def showdown(self, game_state):
         pass
