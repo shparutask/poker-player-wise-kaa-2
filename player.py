@@ -4,7 +4,7 @@ import requests
 import sys
 
 class Player:
-    VERSION = "Default Python folding player"
+    VERSION = "17.28"
 
     def rank_request(self, cards):
         url = "http://rainman.leanpoker.org/rank"
