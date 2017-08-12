@@ -5,7 +5,7 @@ import sys
 
 class Player:
     VERSION = "Default Python folding player"
-
+#eeee
     def rank_request(self, cards):
         url = "http://rainman.leanpoker.org/rank"
 
