@@ -27,7 +27,6 @@ class Player:
         return communityCards + mycards
 
     def betRequest(self, game_state):
-        fold = 0
         try:
             print(json.dumps(game_state))
 
@@ -39,11 +38,8 @@ class Player:
 
             current_buy = game_state['current_buy_in']
 
-            myBet = mystatus['bet']
-            bigBlind = game_state['big_blind']
-
-            theCall = current_buy - myBet
-            theRaise = theCall + bigBlind
+            theCall = current_buy - mystatus['bet']
+            theRaise = theCall+game_state['big_blind']
 
             allIn = theCall + game_state['minimum_raise']
 
@@ -55,7 +51,7 @@ class Player:
                 elif rank == 1 and current_buy < mystatus['stack'] / 4:
                     return theCall
                 else:
-                    return fold
+                    return 0
 
             firstCard = mycards[0]
             secondCard = mycards[1]
@@ -63,22 +59,18 @@ class Player:
             if firstCard['rank'] == secondCard['rank']:
                 return theRaise
             else:
-                # Если ставка меньше 1/4 банка тогда сброс
-                # [СБРОС]
-                if current_buy > mystatus['stack'] / 4:
-                    return fold
-                elif myBet < bigBlind:
-                    return bigBlind
-                # Если колл 0, тогда поднимаем - первая наша ставка
-                elif theCall == 0:
-                    return theRaise
-                # Или колл
+                if mystatus['current_buy_in'] > mystatus['stack'] / 4:
+                    return 0
                 else:
-                    return theCall
+                    if theCall == 0:
+                        return theRaise
+                    else:
+                        return theCall
         except:
             print("Unexpected error:", sys.exc_info()[0])
 
-        return fold
+        return 0
 
     def showdown(self, game_state):
         pass
+
