@@ -36,14 +36,20 @@ class Player:
             communityCards = game_state['community_cards']
             mycards = mystatus['hole_cards']
 
-            allIn = game_state['current_buy_in'] - mystatus['bet'] + game_state['minimum_raise']
+            current_buy = game_state['current_buy_in']
+
+            theCall = current_buy - mystatus['bet']
+            theRaise = theCall+game_state['big_blind']
+
+            allIn = theCall + game_state['minimum_raise']
 
             if len(communityCards) > 0:
                 rank = self.rank_request(communityCards + mycards)
+
                 if rank > 2:
                     return allIn
-                elif rank > 0 and mystatus['current_buy_in'] > mystatus['stack'] / 4:
-                    return game_state['current_buy_in'] - mystatus['bet']
+                elif rank > 0 and current_buy > mystatus['stack'] / 4:
+                    return theCall
                 else:
                     return 0
 
@@ -51,7 +57,7 @@ class Player:
             secondCard = mycards[1]
 
             if firstCard['rank'] == secondCard['rank']:
-                return allIn
+                return theRaise
             else:
                 if mystatus['current_buy_in'] > mystatus['stack'] / 4:
                     return 0
