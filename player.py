@@ -28,55 +28,55 @@ class Player:
 
     def betRequest(self, game_state):
         fold = 0
-        try:
-            print(json.dumps(game_state))
+        # try:
+        print(json.dumps(game_state))
 
-            action_ = game_state['in_action']
-            mystatus = game_state['players'][action_]
+        action_ = game_state['in_action']
+        mystatus = game_state['players'][action_]
 
-            communityCards = game_state['community_cards']
-            mycards = mystatus['hole_cards']
+        communityCards = game_state['community_cards']
+        mycards = mystatus['hole_cards']
 
-            current_buy = game_state['current_buy_in']
+        current_buy = game_state['current_buy_in']
 
-            myBet = mystatus['bet']
-            bigBlind = game_state['big_blind']
+        myBet = mystatus['bet']
+        bigBlind = game_state['big_blind']
 
-            theCall = current_buy - myBet
-            theRaise = theCall + bigBlind
+        theCall = current_buy - myBet
+        theRaise = theCall + bigBlind
 
-            allIn = theCall + game_state['minimum_raise']
+        allIn = theCall + game_state['minimum_raise']
 
-            if len(communityCards) > 0:
-                rank = self.rank_request(communityCards + mycards)
+        if len(communityCards) > 0:
+            rank = self.rank_request(communityCards + mycards)
 
-                if rank > 2:
-                    return allIn
-                elif rank == 1 and current_buy < mystatus['stack'] / 4:
-                    return theCall
-                else:
-                    return fold
-
-            firstCard = mycards[0]
-            secondCard = mycards[1]
-
-            if firstCard['rank'] == secondCard['rank']:
-                return theRaise
+            if rank > 2:
+                return allIn
+            elif rank == 1 and current_buy < mystatus['stack'] / 4:
+                return theCall
             else:
-                # Если ставка меньше 1/4 банка тогда сброс
-                # [СБРОС]
-                if current_buy > mystatus['stack'] / 4:
-                    return fold
-                elif myBet < bigBlind:
-                    return bigBlind
-                # Если колл 0, тогда поднимаем - первая наша ставка
-                elif theCall == 0:
-                    return theRaise
-                # Или колл
-                else:
-                    return theCall
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
+                return fold
+
+        firstCard = mycards[0]
+        secondCard = mycards[1]
+
+        if firstCard['rank'] == secondCard['rank']:
+            return theRaise
+        else:
+            # Если ставка меньше 1/4 банка тогда сброс
+            # [СБРОС]
+            if current_buy > mystatus['stack'] / 4:
+                return fold
+            elif myBet < bigBlind:
+                return bigBlind
+            # Если колл 0, тогда поднимаем - первая наша ставка
+            elif theCall == 0:
+                return theRaise
+            # Или колл
+            else:
+                return theCall
+        # except:
+        #     print("Unexpected error:", sys.exc_info()[0])
 
         return fold
 
